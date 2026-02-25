@@ -95,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#plot-redfield-ratio-measurements" id="toc-plot-redfield-ratio-measurements" class="nav-link" data-scroll-target="#plot-redfield-ratio-measurements">Plot Redfield ratio measurements</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#analysis-of-the-redfield-ratio" id="toc-analysis-of-the-redfield-ratio" class="nav-link" data-scroll-target="#analysis-of-the-redfield-ratio">Analysis of the Redfield Ratio:</a></li>
   </ul>
 </nav>
 </div>
@@ -154,11 +155,10 @@ Source: <a href="https://learning.nceas.ucsb.edu/2024-10-coreR/session_05.html" 
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"BGchem2008data.csv"</span>),</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#(Optional) Quick peek at the data:</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncomment if you want more inspection output</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">names</span>(bg_chem)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#(Optional) Quick peek at the data:</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncomment if you want more inspection output</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a> <span class="fu">names</span>(bg_chem)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Date"            "Time"            "Station"         "Latitude"       
  [5] "Longitude"       "Target_Depth"    "CTD_Depth"       "CTD_Salinity"   
@@ -166,9 +166,9 @@ Source: <a href="https://learning.nceas.ucsb.edu/2024-10-coreR/session_05.html" 
 [13] "Si"              "NO3"             "NO2"             "NH4"            
 [17] "P"               "TA"              "O2"             </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str(bg_chem)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># head(bg_chem)</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(bg_chem)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str(bg_chem)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># head(bg_chem)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(bg_chem)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="analysis" class="level1">
@@ -178,17 +178,17 @@ Source: <a href="https://learning.nceas.ucsb.edu/2024-10-coreR/session_05.html" 
 <h2 class="anchored" data-anchor-id="calculate-summary-statistics">Calculate summary statistics</h2>
 <p>Compute mean nutrient values (using <code>na.rm = TRUE</code> so missing values don’t break the calculation).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nitrate <span class="ot">&lt;-</span> <span class="fu">mean</span>(bg_chem<span class="sc">$</span>NO3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>nitrite <span class="ot">&lt;-</span> <span class="fu">mean</span>(bg_chem<span class="sc">$</span>NO2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>amm     <span class="ot">&lt;-</span> <span class="fu">mean</span>(bg_chem<span class="sc">$</span>NH4, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>phos    <span class="ot">&lt;-</span> <span class="fu">mean</span>(bg_chem<span class="sc">$</span>P,   <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nitrate <span class="ot">&lt;-</span> <span class="fu">mean</span>(bg_chem<span class="sc">$</span>NO3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>nitrite <span class="ot">&lt;-</span> <span class="fu">mean</span>(bg_chem<span class="sc">$</span>NO2, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>amm     <span class="ot">&lt;-</span> <span class="fu">mean</span>(bg_chem<span class="sc">$</span>NH4, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>phos    <span class="ot">&lt;-</span> <span class="fu">mean</span>(bg_chem<span class="sc">$</span>P,   <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="calculate-mean-redfield-ratio" class="level2">
 <h2 class="anchored" data-anchor-id="calculate-mean-redfield-ratio">Calculate mean Redfield ratio</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ratio <span class="ot">&lt;-</span> (nitrate <span class="sc">+</span> nitrite <span class="sc">+</span> amm) <span class="sc">/</span> phos</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ratio</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ratio <span class="ot">&lt;-</span> (nitrate <span class="sc">+</span> nitrite <span class="sc">+</span> amm) <span class="sc">/</span> phos</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ratio</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6.216519</code></pre>
 </div>
@@ -200,17 +200,17 @@ Source: <a href="https://learning.nceas.ucsb.edu/2024-10-coreR/session_05.html" 
 <h2 class="anchored" data-anchor-id="plot-redfield-ratio-measurements">Plot Redfield ratio measurements</h2>
 <p>Finally, create a simple base R plot that shows the relationship between phosphate and the total nitrogen components.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  bg_chem<span class="sc">$</span>P,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  bg_chem<span class="sc">$</span>NO2 <span class="sc">+</span> bg_chem<span class="sc">$</span>NO3 <span class="sc">+</span> bg_chem<span class="sc">$</span>NH4,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Phosphate (P)"</span>,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Total nitrogen (NO2 + NO3 + NH4)"</span>,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Ocean water samples: total N vs P"</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  bg_chem<span class="sc">$</span>P,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  bg_chem<span class="sc">$</span>NO2 <span class="sc">+</span> bg_chem<span class="sc">$</span>NO3 <span class="sc">+</span> bg_chem<span class="sc">$</span>NH4,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Phosphate (P)"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Total nitrogen (NO2 + NO3 + NH4)"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Ocean water samples: total N vs P"</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="a01_quarto_literate_analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="a01_quarto_literate_analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -228,6 +228,12 @@ Source: <a href="https://learning.nceas.ucsb.edu/2024-10-coreR/session_05.html" 
 <li>Created a basic plot relating total nitrogen to phosphate</li>
 </ul>
 <p>This is the core idea of <strong>literate analysis</strong>: combine narrative and code in one document so the workflow is easier to understand and reproduce.</p>
+</section>
+<section id="analysis-of-the-redfield-ratio" class="level1">
+<h1>Analysis of the Redfield Ratio:</h1>
+<p>The Redfield ratio (C:N:P = 106:16:1, or N:P =16:1) which represents the average molar ratio of nitrogen to phosphorus found in marine phytoplankton and deep ocean nutrients. It is widely used as a benchmark for evaluating nutrient balance in marine ecosystems. By comparing observed nitrogen to phosphate ratios with the Redfield value, we can assess whether an ecosystem is relatively nitrogen-limited or phosphorus-limited. Because nitrogen and phosphorus are essential nutrients for primary productivity, deviations from the Redfield ratio provide information about ecosystem health and nutrient cycling dynamics. In this analysis, the nitrogen to phosphate ratio was calculated from real seawater chemistry data and compared it to the Redfield expectation to evaluate nutrient balance in these ocean samples.</p>
+<p>The calculated mean nitrogen to phosphate ratio for this dataset is approximately 6.2, which is lower than the classical Redfield ratio of 16. This indicates that, on average, nitrogen is present in lower proportion relative to phosphorus compared to the global marine benchmark. The plot of total nitrogen (NO2 + NO3 + NH4) versus phosphate shows a clear positive relationship: as phosphate concentration increases, total nitrogen also increases. However, the slope of the relationship is noticeably shallower than what would be expected by the strict 16:1 Redfield proportion. For example, at phosphate values near 1.0, total nitrogen values cluster around 2–3 or around 12–13, rather than near 16. Across the full range of phosphate concentrations (approximately 0.6 to 1.8), total nitrogen increases from near 0 up to about 16, but not in a pattern consistent with a 16:1 ratio. This visual pattern aligns with the calculated mean ratio of 6, reinforcing that nitrogen is relatively scarce compared to phosphorus in these samples.</p>
+<p>Overall, the nitrogen to phosphate ratio in these ocean water samples (6:1) is significantly lower than the Redfield ratio (16:1). This implies that the sampled waters may be relatively nitrogen-limited, meaning primary productivity in this region could be more constrained by nitrogen availability than by phosphorus.These types of deviations from the Redfield ratio are can occur in real marine systems and can result from factors such as scarce nutrient inputs, biological uptake, water mass mixing, or seasonal variability. It is important to recognize that the Redfield ratio represents a global average rather than a strict rule. However, the substantial difference between the observed ratio (6) and the Redfield value (16) suggests an impactful ecological variation in nutrient balance within this dataset.</p>
 </section>
 
 </main>
