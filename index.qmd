@@ -1,12 +1,18 @@
 ---
-title: "Portfolio"
-listing:
-  contents: assignments
-  sort: "date asc"
-  fields: [title, date]
+title: "GitHub Pages Example"
+format: html
 ---
 
-Welcome!  
-This is my portfolio for learning **R, data analysis, GitHub, and Quarto**.
+# Welcome
 
-## Assignments
+This is my GitHub Pages site.
+
+# Project description
+
+This is for BIO/CHEM 806.
+
+# Analysis
+
+More coming soon.
+---
+
