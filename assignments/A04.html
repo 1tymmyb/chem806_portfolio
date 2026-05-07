@@ -9,7 +9,7 @@
 <meta name="author" content="Tymesha Bovell">
 <meta name="dcterms.date" content="2026-03-12">
 
-<title>Cleaning data for Statistical Analysis of Alaska Commerical Salmon</title>
+<title>Bird Data Tidy Data and Joins</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,18 +60,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="A03_files/libs/clipboard/clipboard.min.js"></script>
-<script src="A03_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="A03_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="A03_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="A03_files/libs/quarto-html/popper.min.js"></script>
-<script src="A03_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="A03_files/libs/quarto-html/anchor.min.js"></script>
-<link href="A03_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="A03_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="A03_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="A03_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="A03_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="A04_files/libs/clipboard/clipboard.min.js"></script>
+<script src="A04_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="A04_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="A04_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="A04_files/libs/quarto-html/popper.min.js"></script>
+<script src="A04_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="A04_files/libs/quarto-html/anchor.min.js"></script>
+<link href="A04_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="A04_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="A04_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="A04_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="A04_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -85,10 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction:</a></li>
-  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code:</a></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data:</a></li>
-  <li><a href="#code-analysis" id="toc-code-analysis" class="nav-link" data-scroll-target="#code-analysis">Code Analysis:</a></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion:</a></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis:</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion:</a></li>
   </ul>
 </nav>
 </div>
@@ -96,7 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Cleaning data for Statistical Analysis of Alaska Commerical Salmon</h1>
+<h1 class="title">Bird Data Tidy Data and Joins</h1>
 </div>
 
 
@@ -127,70 +126,124 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level1">
 <h1>Introduction:</h1>
-<p>This analysis uses commercial salmon catch data fromAlaska to examine differences in salmon harvest across regions andyears. The annual catch records was reported the Alaska Department ofFish and Game report from 1878 to 1997. The reported dataset specifically includes annual catch records for Chinook, Sockeye, Coho,Pink, and Chum salmon. These data are useful because they can helpassessment of long-term patterns in salmon harvest and consider howmanagement practices and environmental change may influence commercialfisheries. In addition, this report shows how R functions from libraries: readr,dplyr, and tidyr can be used to clean, reshape, and summarize the dataset for analysis.</p>
-</section>
-<section id="code" class="level1">
-<h1>Code:</h1>
-<p>In R, operator &lt;- saves the result of an operation as a variable.</p>
-<p>The pipe operator %&gt;% passes the output from one step into the next function, allowing multiple data-cleaning steps to be chained together.</p>
+<p>This assignment primarily used libraries <code>lubridate</code> and <code>dplyr</code> to clean organize bird observation data. The object was to extract the month from the survey date, keep only selected parks, then calculate the total number of birds observed by park and month.</p>
 </section>
 <section id="data" class="level1">
 <h1>Data:</h1>
-<p>The dataset used in this report is the Alaska commercial salmon catch dataset from the Knowledge Network for Biocomplexity (KNB) repository.The dataset was downloaded on March 5, 2026.</p>
-</section>
-<section id="code-analysis" class="level1">
-<h1>Code Analysis:</h1>
+<p>The dataset was retrieved from the Environmental Data Initiative dataset, “Ecological and social Interactions in urban parks: bird surveys in local parks in the central Arizona-Phoenix metropolitan area” (Warren et al., 2021). This dataset contains bird survey records from parks in the Phoenix metropolitan area, including survey dates, park names, and bird observations.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The readr, dplyr, and tidyr libraries were loaded to read the dataset, clean and manipulate the data, and restructure.#</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>catch_original <span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates a new object called mean_region and sends catch_original into the next function using %&gt;%</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>mean_region <span class="ot">&lt;-</span> catch_original <span class="sc">%&gt;%</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select() removes the columns All and notesRegCode because they are not needed</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>All, <span class="sc">-</span>notesRegCode) <span class="sc">%&gt;%</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate() replaces the incorrect Chinook value "I" with "1"</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Chinook =</span> <span class="fu">if_else</span>(Chinook <span class="sc">==</span> <span class="st">"I"</span>, <span class="st">"1"</span>, Chinook)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate() converts the Chinook column from character values to numeric values</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Chinook =</span> <span class="fu">as.numeric</span>(Chinook)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot_longer() reshapes the dataset from wide format to long format which turns species columns into 2 columns called species and catch</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(Region, Year), <span class="at">names_to =</span> <span class="st">"species"</span>, <span class="at">values_to =</span> <span class="st">"catch"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate() , converts catch values from thousands?</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">catch =</span> catch <span class="sc">*</span> <span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># group_by() , groups the rows by Region for separate calculations for each region</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Region) <span class="sc">%&gt;%</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># summarize(), calculates the average catch for each region</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_catch =</span> <span class="fu">mean</span>(catch)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># arrange() ,arranges the regions in descending order</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_catch))</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># head(), displays rows of the mean_region table</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mean_region)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Load the appropiate librarys</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load csv file</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>birds <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/raw/join_bird/52_pp52_birds_1.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sites <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/raw/join_bird/52_pp52_sites_1.csv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>surveys <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/raw/join_bird/52_pp52_surveys_1.csv"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>taxalist <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/raw/join_bird/52_pp52_taxalist_1.csv"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>bird_obs_subset <span class="ot">&lt;-</span> birds <span class="sc">%&gt;%</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(<span class="at">y =</span> taxalist, <span class="at">by =</span> <span class="st">"species_id"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(<span class="at">y =</span> sites, <span class="at">by =</span> <span class="st">"site_id"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(<span class="at">y =</span> surveys, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"site_id"</span>, <span class="st">"survey_id"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(survey_date, common_name, park_name, bird_count, observer)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(bird_obs_subset<span class="sc">$</span>observer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 2
-  Region mean_catch
-  &lt;chr&gt;       &lt;dbl&gt;
-1 SSE      3184661.
-2 BRB      2709796.
-3 NSE      1825021.
-4 KOD      1528350 
-5 PWS      1419237.
-6 SOP      1110942.</code></pre>
+<pre><code>[1] "B. Rambo"   "J. Lemmer"  "D. Stuart"  "C. Putnam"  "S. Lerman" 
+[6] "Josh Burns" NA          </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bird_obs_subset <span class="ot">&lt;-</span> bird_obs_subset <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">observer =</span> <span class="fu">if_else</span>(<span class="at">condition =</span> observer <span class="sc">==</span> <span class="st">"Josh Burns"</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">true =</span> <span class="st">"J. Burns"</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">false =</span> observer))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(bird_obs_subset<span class="sc">$</span>observer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "B. Rambo"  "J. Lemmer" "D. Stuart" "C. Putnam" "S. Lerman" "J. Burns" 
+[7] NA         </code></pre>
 </div>
 </div>
 </section>
-<section id="discussion" class="level1">
-<h1>Discussion:</h1>
-<p>The results show the average salmon catch across Alaska fishing regions. The Southeast region (SSE) has the highest mean catch, whereas the South Peninsula region (SOP) has the lowest average catch. This suggests that salmon harvest levels vary across regions. Further analysis could examine whether these differences are related to variations in salmon populations, environmental conditions, fishing activity depending on the region, or harvesting patterns among different salmon species. workflow_dispatch:</p>
+<section id="analysis" class="level1">
+<h1>Analysis:</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#------ join datasets -----:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>bird_obs_subset <span class="ot">&lt;-</span> birds <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># join species data using species_id</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(<span class="at">y =</span> taxalist, <span class="at">by =</span> <span class="st">"species_id"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># join site data using site_id</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(<span class="at">y =</span> sites, <span class="at">by =</span> <span class="st">"site_id"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># join survey data using site_id and survey_id</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(<span class="at">y =</span> surveys, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"site_id"</span>, <span class="st">"survey_id"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># keep only the columns needed for this assignment</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(survey_date, common_name, park_name, bird_count, observer)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#------ clean observer names -----:</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>bird_obs_subset <span class="ot">&lt;-</span> bird_obs_subset <span class="sc">%&gt;%</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># change Josh Burns to J. Burns</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">observer =</span> <span class="fu">if_else</span>(<span class="at">condition =</span> observer <span class="sc">==</span> <span class="st">"Josh Burns"</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                            <span class="at">true =</span> <span class="st">"J. Burns"</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                            <span class="at">false =</span> observer))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#------ filter by park, extract month, and move month column -----:</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>bird_obs_subset <span class="ot">&lt;-</span> bird_obs_subset <span class="sc">%&gt;%</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># filter to only Lindo, Orme, Palomino, and Sonrisa</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(park_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Lindo"</span>, <span class="st">"Orme"</span>, <span class="st">"Palomino"</span>, <span class="st">"Sonrisa"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co"># extract month number from survey_date into new variable survey_month</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">survey_month =</span> <span class="fu">factor</span>(<span class="fu">month</span>(survey_date))) <span class="sc">%&gt;%</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co"># move survey_month to be directly after survey_date</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(survey_month, <span class="at">.after =</span> survey_date)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co">#------ summarize the dataset -----:</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>birds_by_park_month <span class="ot">&lt;-</span> bird_obs_subset <span class="sc">%&gt;%</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co"># organize the data into groups based on park and month</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(park_name, survey_month) <span class="sc">%&gt;%</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="co"># sum bird_count for each park and month, ignoring missing values</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_birds =</span> <span class="fu">sum</span>(bird_count, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="co"># print (display) the final summarized data frame</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>birds_by_park_month</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 27 × 3
+   park_name survey_month total_birds
+   &lt;chr&gt;     &lt;fct&gt;              &lt;dbl&gt;
+ 1 Lindo     1                    394
+ 2 Lindo     3                   2316
+ 3 Lindo     6                   2187
+ 4 Lindo     9                   4688
+ 5 Lindo     10                   529
+ 6 Lindo     12                  1948
+ 7 Lindo     &lt;NA&gt;                   0
+ 8 Orme      1                    439
+ 9 Orme      3                   1928
+10 Orme      6                   2355
+# ℹ 17 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion:</h1>
+<p>The final data table shows the total number of birds observed at each park grouped by month. The results are informative because they allow comparison of bird activity across Lindo, Orme, Palomino, and Sonrisa over time. For example, Lindo shows a high number of bird observations in September, while other parks such as Palomino and Sonrisa show more moderate counts across multiple months.</p>
+<p>The output is useful because it clearly summarizes large amounts of observational data into a simple structure that highlights seasonal patterns. However, there are some rows where <code>survey_month</code> is NA with a total of 0 birds, which likely come from missing survey dates. These rows could be removed to improve clarity.</p>
+<p>To further improve the wrangling process, the month values could be converted from numeric values to labeled names (e.g., January, February) for better readability. Additionally, visualizing the data (e.g., with a bar plot) would make trends across parks and months easier to interpret.</p>
 </section>
 
 </main>
