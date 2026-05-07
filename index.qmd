@@ -1,8 +1,12 @@
 ---
-title: "GitHub Pages Example"
-format: html
+title: "Portfolio for R computational course for Biologists and Chemistry"
+author: Tymesha Bovell
+date: 05/07/2026
 ---
 
-# Welcome
+## Table of Contents:
 
-"Hello World"
+
+- [Cleaning and Wrangling Data](assignments/A03.html)
+- [Tidy Data and Joins](assignments/A04.html)
+- [Working with Spatial Data and Visualization](assignments/intro-to-spatial-data.html)
