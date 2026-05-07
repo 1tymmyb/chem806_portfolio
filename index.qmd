@@ -5,14 +5,26 @@ format: html
 
 # Welcome
 
-This is my GitHub Pages site.
+Welcome to my GitHub Pages site for BIO/CHEM 806: Applied Data Science. This site documents my coursework, coding exercises, data analysis projects, and scientific computing workflows developed throughout the semester using R, Quarto, GitHub, and reproducible research practices.
 
-# Project description
+# Project Description
 
-This is for BIO/CHEM 806.
+This repository contains assignments, reports, and analytical projects completed for BIO/CHEM 806. The course integrates biological and chemical research with data science methods, including function writing, data visualization, reproducible workflows, and scientific communication.
+
+My work focuses on applying computational tools to real scientific problems in biology and chemistry.
 
 # Analysis
 
-More coming soon.
----
+### This site expands on the following tasks completed throughout the semester:
 
+1. Quarto reports
+
+2. R function development
+
+3. Data visualization projects
+
+4. Reproducible research workflows
+
+5. Scientific, biological survey data analyses and interpretations
+
+6. Git/GitHub collaboration exercises
