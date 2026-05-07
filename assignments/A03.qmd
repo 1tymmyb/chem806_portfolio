@@ -1,5 +1,5 @@
 ---
-title: "Cleaning data for Statistical Analysis of Alaska Commerical Salmon"
+title: "Cleaning and Wrangling data for Analysis of Alaska Commerical Salmon"
 author: "Tymesha Bovell"
 date: "March 12, 2026"
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Working with Spatial Data in R"
 author: "Tymesha Bovell"
-editor: visual
+date: 05/06/2026
 ---
 
 # Introduction
@@ -259,8 +259,8 @@ m <- leaflet(options = leafletOptions(crs = epsg3338)) %>%
 
 m
 ```
-# Discussion:
 
+# Discussion:
 
 This project demonstrated how spatial data can be transformed, joined, summarized, and visualized in R using the `sf` package and tidyverse workflows. The analysis combined Alaska regional boundary polygons, Alaska community population point data, and river shapefiles to create both static and interactive geospatial visualizations.
 
